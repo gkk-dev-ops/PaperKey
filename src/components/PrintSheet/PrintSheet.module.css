@@ -1,0 +1,166 @@
+.sheet {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.printHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.printHeaderLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.printHeaderRight {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: flex-end;
+  text-align: right;
+  font-size: 0.8125rem;
+}
+
+.printTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.printCategory {
+  display: inline-block;
+  padding: 0.125rem 0.625rem;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  width: fit-content;
+}
+
+.printMeta {
+  color: var(--color-text-muted);
+}
+
+.printLabel {
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.printWarning {
+  padding: 0.625rem 0.875rem;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: var(--radius-md);
+  font-size: 0.8125rem;
+  color: #9a3412;
+  font-weight: 500;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sectionTitle {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+}
+
+.exactBox {
+  padding: 1rem;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+}
+
+.exactValue {
+  font-family: var(--font-mono);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+  word-break: break-all;
+  letter-spacing: 0.05em;
+  line-height: 1.7;
+}
+
+.exactMeta {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+}
+
+.notesBox {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  white-space: pre-wrap;
+}
+
+.printFooter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.footerSeparator {
+  opacity: 0.4;
+}
+
+@media print {
+  .sheet {
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .printWarning {
+    background: #fff;
+    border: 1px solid #000;
+    color: #000;
+  }
+
+  .exactBox {
+    border: 2px solid #000;
+    background: #fff;
+  }
+
+  .notesBox {
+    border: 1px solid #000;
+    background: #fff;
+  }
+
+  .printTitle {
+    color: #000;
+  }
+
+  .sectionTitle {
+    color: #000;
+  }
+}
