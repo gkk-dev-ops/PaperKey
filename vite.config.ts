@@ -11,6 +11,7 @@ export default defineConfig({
       strategies: 'generateSW',
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json,woff2}'],
+        globIgnores: ['**/images/Origami key logo illustration.png', '**/images/Origami key with PaperKey logo.png'],
         cleanupOutdatedCaches: true,
       },
       manifest: {

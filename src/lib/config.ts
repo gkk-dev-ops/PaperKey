@@ -6,9 +6,9 @@ const PhoneticProfileSchema = z.object({
   label: z.string(),
   locale: z.string().optional(),
   source: z.enum(['built-in', 'instance-config', 'user-custom']),
-  letters: z.record(z.string()),
-  digits: z.record(z.string()),
-  symbols: z.record(z.string()),
+  letters: z.record(z.string(), z.string()),
+  digits: z.record(z.string(), z.string()),
+  symbols: z.record(z.string(), z.string()),
 });
 
 const ConfigSchema = z.object({
