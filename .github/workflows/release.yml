@@ -29,6 +29,7 @@ jobs:
         run: npm run build
         env:
           VITE_BASE: /PaperKey/
+          VITE_APP_VERSION: ${{ github.ref_name }}
 
       - name: Package dist
         run: cd dist && zip -r ../paperkey-${{ github.ref_name }}.zip . && cd ..

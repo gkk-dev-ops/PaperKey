@@ -17,6 +17,7 @@ function generateId(): string {
 export function Settings({ profiles, onProfilesChange }: SettingsProps) {
   const [settings, setSettings] = useState<AppSettings>(loadSettings);
   const [saved, setSaved] = useState(false);
+  const buildVersion = import.meta.env.VITE_APP_VERSION ?? 'dev';
 
   // New custom profile form
   const [newProfileLabel, setNewProfileLabel] = useState('');
@@ -263,6 +264,11 @@ export function Settings({ profiles, onProfilesChange }: SettingsProps) {
           </div>
         </section>
       )}
+
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Build</h2>
+        <p className={styles.hint}>Version {buildVersion}</p>
+      </section>
 
       {saved && <div className={styles.savedToast}>Settings saved</div>}
     </div>

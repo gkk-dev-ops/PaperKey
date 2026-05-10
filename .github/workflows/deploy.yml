@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [master, main]
   workflow_dispatch:
 
 permissions:
@@ -15,11 +15,31 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  metadata:
+    name: Compute Build Metadata
+    runs-on: ubuntu-latest
+    outputs:
+      app_version: ${{ steps.build_meta.outputs.app_version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: build_meta
+        name: Derive deploy version
+        run: |
+          base_version="$(node -p "require('./package.json').version")"
+          short_sha="${GITHUB_SHA::7}"
+          app_version="${base_version}-ci.${short_sha}"
+          echo "app_version=${app_version}" >> "$GITHUB_OUTPUT"
+
   build:
     name: Build
+    needs: metadata
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
       - uses: actions/setup-node@v4
         with:
@@ -32,6 +52,7 @@ jobs:
         run: npm run build
         env:
           VITE_BASE: /PaperKey/
+          VITE_APP_VERSION: ${{ needs.metadata.outputs.app_version }}
 
       - uses: actions/upload-pages-artifact@v3
         with:

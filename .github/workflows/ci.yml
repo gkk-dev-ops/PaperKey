@@ -2,13 +2,36 @@ name: CI
 
 on:
   push:
-    branches: [main, "claude/**"]
+    branches: [master, main, "claude/**"]
   pull_request:
-    branches: [main]
+    branches: [master, main]
+
+permissions:
+  contents: write
 
 jobs:
+  metadata:
+    name: Compute Build Metadata
+    runs-on: ubuntu-latest
+    outputs:
+      app_version: ${{ steps.build_meta.outputs.app_version }}
+      ci_tag: ${{ steps.build_meta.outputs.ci_tag }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: build_meta
+        name: Derive CI version
+        run: |
+          base_version="$(node -p "require('./package.json').version")"
+          short_sha="${GITHUB_SHA::7}"
+          app_version="${base_version}-ci.${short_sha}"
+          ci_tag="ci-v${base_version}-${short_sha}"
+          echo "app_version=${app_version}" >> "$GITHUB_OUTPUT"
+          echo "ci_tag=${ci_tag}" >> "$GITHUB_OUTPUT"
+
   test:
     name: Test & Build
+    needs: metadata
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,3 +50,29 @@ jobs:
         run: npm run build
         env:
           VITE_BASE: /PaperKey/
+          VITE_APP_VERSION: ${{ needs.metadata.outputs.app_version }}
+
+  tag_commit:
+    name: Tag Commit
+    needs: [metadata, test]
+    if: github.event_name == 'push' && (github.ref_name == 'master' || github.ref_name == 'main')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create CI tag
+        env:
+          CI_TAG: ${{ needs.metadata.outputs.ci_tag }}
+          APP_VERSION: ${{ needs.metadata.outputs.app_version }}
+        run: |
+          if git rev-parse -q --verify "refs/tags/${CI_TAG}" >/dev/null; then
+            echo "Tag ${CI_TAG} already exists"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "${CI_TAG}" -m "CI build ${APP_VERSION}"
+          git push origin "${CI_TAG}"
