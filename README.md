@@ -71,6 +71,14 @@ Run unit tests:
 npm test
 ```
 
+Regenerate installable icons from the existing square source image in `public/images/Origami key logo illustration.png`:
+
+```bash
+npm run icons:generate
+```
+
+This uses `magick` (ImageMagick) on macOS/Linux. If `magick` is unavailable, use a local fallback such as `qlmanage` only to create temporary PNGs, then replace them with `magick`-generated assets before committing.
+
 Run end-to-end tests (requires a running dev server):
 
 ```bash
@@ -87,7 +95,13 @@ Build a static site and deploy the `dist/` folder to any static host:
 npm run build
 ```
 
-The app is configured for GitHub Pages deployment. If you host it at a subpath, update the `base` option in `vite.config.ts` to match.
+The app is configured for GitHub Pages project-site deployment. To build for `/PaperKey/`, run:
+
+```bash
+VITE_BASE=/PaperKey/ npm run build
+```
+
+If you host it at a different subpath, set `VITE_BASE` to that path before building.
 
 CI/CD workflows for GitHub Actions are included in `.github/workflows/`.
 

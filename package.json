@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "icons:generate": "magick \"public/images/Origami key logo illustration.png\" -resize 192x192 public/icons/icon-192.png && magick \"public/images/Origami key logo illustration.png\" -resize 512x512 public/icons/icon-512.png && magick \"public/images/Origami key logo illustration.png\" -resize 180x180 public/icons/apple-touch-icon.png",
     "preview": "vite preview",
     "test": "vitest run",
     "test:ui": "vitest --ui",
