@@ -79,19 +79,6 @@ Possible tagline:\
 - Recommended choice: **MIT License**.
 - Goal: anyone should be free to use, modify, self-host, and adapt the app.
 
-### Footer attribution requirement
-
-Include one small, unobtrusive footer sentence in the application.
-
-Recommended footer copy:  
-**Built by Grzegorz Kaczmarek — need custom software development? Visit gkk-dev.com.**
-
-Behavior:
-
-- visible in normal app layout,
-- excluded from print output by default,
-- link opens `https://gkk-dev.com`.
-
 ## Security model
 
 Because the app handles secrets, this section is critical.
